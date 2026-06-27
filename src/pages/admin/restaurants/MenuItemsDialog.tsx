@@ -4,11 +4,10 @@ import {Card, CardContent} from "@/components/ui/card.tsx";
 import {Plus, Trash2} from "lucide-react";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {useMenuItems} from "@/hooks/useMenuItem.ts";
-import {MenuItemResponse, menuItemSchema, MenuItemsFormData} from "@/types/menuItems.ts";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {useForm} from "react-hook-form";
+import {MenuItemResponse, MenuItemsFormData} from "@/types/menuItems.ts";
 import {Badge} from "@/components/ui/badge.tsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {CreateMenuItemDialog} from "@/pages/admin/restaurants/CreateMenuItemDialog.tsx";
 
 export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
     const {
@@ -19,34 +18,12 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
         deleteMenuItems,
         loading
     } = useMenuItems();
+    const [isMenuItemModalOpen, setIsMenuItemModalOpen] = useState(false);
+    const [editMenuItem, setEditMenuItem] = useState<MenuItemResponse | null>(null);
 
-    const {
-        register,
-        reset,
-        control,
-        handleSubmit,
-        formState: {errors, isSubmitting}
-    } = useForm<MenuItemsFormData>({
-        resolver: zodResolver(menuItemSchema),
-        defaultValues: {
-            name: "",
-            description: "",
-            price: 0,
-            displayOrder: 1,
-            isActive: true,
-            category: "",
-        }
-    });
     const handleCreateMenuItem = () => {
-        reset({
-            name: "",
-            description: "",
-            category: "",
-            displayOrder: 1,
-            price: 0,
-            isActive: true,
-            restaurantId: editRestaurant?.id
-        });
+        setEditMenuItem(null)
+        setIsMenuItemModalOpen(true);
     }
 
     const handleSubmitMenuItem = async (data: MenuItemsFormData) => {
@@ -61,12 +38,13 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
     }
 
     useEffect(() => {
-        if ( editRestaurant?.id) {
-            const filter = { ...menuItemFilter };
+        if (editRestaurant?.id) {
+            const filter = {...menuItemFilter};
             filter.restaurantId = Number.parseInt(editRestaurant.id);
             setMenuItemFilter(filter);
         }
     }, [editRestaurant]);
+
     return (
         <>
             <Dialog open={open} onOpenChange={onOpenChange}>
@@ -87,7 +65,7 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
                         </div>
                     </DialogHeader>
                     <Card className="h-full">
-                        <CardContent >
+                        <CardContent>
                             <Table className="table-fixed w-full">
                                 <TableHeader>
                                     <TableRow>
@@ -138,6 +116,12 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
                     </Card>
                 </DialogContent>
             </Dialog>
+            <CreateMenuItemDialog
+                editMenuItem={editMenuItem}
+                isModalOpen={isMenuItemModalOpen}
+                setIsModalOpen={setIsMenuItemModalOpen}
+                editRestaurant={editRestaurant}
+            />
         </>
     );
 }

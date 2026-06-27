@@ -9,7 +9,7 @@ import {Switch} from "@/components/ui/switch.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Loader2} from "lucide-react";
 
-export function CreateMenuItemForm({isModalOpen, setIsModalOpen, editRestaurant, editMenuItem}) {
+export function CreateMenuItemDialog({isModalOpen, setIsModalOpen, editRestaurant, editMenuItem}) {
     const {
         register,
         reset,
@@ -56,18 +56,21 @@ export function CreateMenuItemForm({isModalOpen, setIsModalOpen, editRestaurant,
                                placeholder="Entrante" {...register("category")}/>
                         {errors.category && <p className="text-sm text-red-500">{errors.category.message}</p>}
                     </div>
-                    <div className="grid gap-2">
-                        <Label htmlFor="price">Precio*</Label>
-                        <Input id="price" type="number" step="0.50"
-                               placeholder="0.00" {...register("price")}/>
-                        {errors.price && <p className="text-sm text-red-500">{errors.price.message}</p>}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="price">Precio*</Label>
+                            <Input id="price" type="number" step="0.50"
+                                   placeholder="0.00" {...register("price")}/>
+                            {errors.price && <p className="text-sm text-red-500">{errors.price.message}</p>}
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="price">Orden</Label>
+                            <Input id="price" type="number" step="1"
+                                   placeholder="0.00" {...register("order")}/>
+                            {errors.price && <p className="text-sm text-red-500">{errors.price.message}</p>}
+                        </div>
                     </div>
-                    <div className="grid gap-2">
-                        <Label htmlFor="price">Orden</Label>
-                        <Input id="price" type="number" step="1"
-                               placeholder="0.00" {...register("order")}/>
-                        {errors.price && <p className="text-sm text-red-500">{errors.price.message}</p>}
-                    </div>
+
                     <div className="flex items-center gap-2">
                         <Controller name="isAvailable" control={control} render={({field}) => (
                             <Switch
