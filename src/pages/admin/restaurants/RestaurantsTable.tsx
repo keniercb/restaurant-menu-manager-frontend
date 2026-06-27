@@ -1,13 +1,12 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {Pencil, Plus, Trash2} from "lucide-react";
+import {Pencil, Plus, Trash2, UtensilsCrossed} from "lucide-react";
 import {useRestaurant} from "@/hooks/useRestaurant.ts";
-import {useState} from "react";
 import {Restaurant} from "@/types";
-import {useMenuItems} from "@/hooks/useMenuItem.ts";
+import {useEffect} from "react";
 
-export function RestaurantsTable({setEditRestaurant, setIsMenuItemOpen}) {
+export function RestaurantsTable({setEditRestaurant, setIsMenuItemOpen, isModalDialogOpen}) {
     const {
         restaurants,
         loading,
@@ -16,19 +15,15 @@ export function RestaurantsTable({setEditRestaurant, setIsMenuItemOpen}) {
         createRestaurant,
     } = useRestaurant();
 
-    const {
-        menuItemFilter,
-        setMenuItemFilter
-    } = useMenuItems();
     const handleEdit = async (restaurant: Restaurant) => {
         setEditRestaurant(restaurant);
-        const filter = {...menuItemFilter};
-        filter.restaurantId = Number.parseInt(restaurant.id);
-        setMenuItemFilter(filter);
         setIsMenuItemOpen(true);
     }
     const handleDelete = (restaurant: Restaurant) => {
     }
+    useEffect(() => {
+        fetchRestaurants();
+    }, [isModalDialogOpen]);
 
     return (
         <>
@@ -77,7 +72,7 @@ export function RestaurantsTable({setEditRestaurant, setIsMenuItemOpen}) {
                                                 size="icon"
                                                 onClick={() => handleEdit(restaurant)}
                                             >
-                                                <Pencil className="w-4 h-4"></Pencil>
+                                                <UtensilsCrossed className="w-4 h-4"></UtensilsCrossed>
                                             </Button>
                                             <Button
                                                 variant="ghost"

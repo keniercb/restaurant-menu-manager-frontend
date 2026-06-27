@@ -13,7 +13,6 @@ import {zodResolver} from "@hookform/resolvers/zod";
 export function CreateRestaurantDialog({editRestaurant, open, onOpenChange}) {
     const {cuisines} = useCuisine();
     const {
-        restaurants,
         loading,
         error,
         fetchRestaurants,
@@ -41,11 +40,9 @@ export function CreateRestaurantDialog({editRestaurant, open, onOpenChange}) {
             console.log(data);
         } else {
             await createRestaurant(data);
-
         }
         onOpenChange(false);
         reset();
-        await fetchRestaurants();
     }
     return (
         <>

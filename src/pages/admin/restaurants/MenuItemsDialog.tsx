@@ -8,6 +8,7 @@ import {MenuItemResponse, menuItemSchema, MenuItemsFormData} from "@/types/menuI
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import {Badge} from "@/components/ui/badge.tsx";
+import {useEffect} from "react";
 
 export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
     const {
@@ -60,11 +61,17 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
         setMenuItemFilter(filter);
     }
 
-
+    useEffect(() => {
+        if ( editRestaurant?.id) {
+            const filter = { ...menuItemFilter };
+            filter.restaurantId = Number.parseInt(editRestaurant.id);
+            setMenuItemFilter(filter);
+        }
+    }, [editRestaurant]);
     return (
         <>
             <Dialog open={open} onOpenChange={onOpenChange}>
-                <DialogContent className="sm:max-w-250">
+                <DialogContent className="sm:max-w-250 h-[450px] flex flex-col">
                     <DialogHeader>
                         <div className="flex items-center justify-between">
                             <div>
@@ -80,15 +87,15 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
                             </Button>
                         </div>
                     </DialogHeader>
-                    <Card>
-                        <CardContent>
+                    <Card className="h-full">
+                        <CardContent >
                             <Table className="table-fixed w-full">
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead className="w-full uppercase">Plato</TableHead>
-                                        <TableHead className="w-[100px] uppercase">Tipo</TableHead>
-                                        <TableHead className="w-[100px] text-right uppercase">Precio</TableHead>
-                                        <TableHead className="w-[80px] text-right uppercase">Acciones</TableHead>
+                                        <TableHead className="w-25 uppercase">Tipo</TableHead>
+                                        <TableHead className="w-25 text-right uppercase">Precio</TableHead>
+                                        <TableHead className="w-20 text-right uppercase">Acciones</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>

@@ -45,6 +45,7 @@ export function RestaurantsPage() {
             <RestaurantsTable
                 setEditRestaurant={setEditRestaurant}
                 setIsMenuItemOpen={setIsMenuItemOpen}
+                isModalDialogOpen={isModalOpen}
             />
             <CreateRestaurantDialog
                 editRestaurant={editRestaurant}
