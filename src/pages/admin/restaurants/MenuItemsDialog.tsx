@@ -31,11 +31,10 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
         defaultValues: {
             name: "",
             description: "",
-            displayOrder: 1,
-            restaurantId: "",
-            category: "",
             price: 0,
+            displayOrder: 1,
             isActive: true,
+            category: "",
         }
     });
     const handleCreateMenuItem = () => {
