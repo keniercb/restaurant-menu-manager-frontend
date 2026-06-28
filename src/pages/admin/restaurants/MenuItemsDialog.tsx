@@ -8,6 +8,7 @@ import {MenuItemResponse, MenuItemsFormData} from "@/types/menuItems.ts";
 import {Badge} from "@/components/ui/badge.tsx";
 import {useEffect, useState} from "react";
 import {CreateMenuItemDialog} from "@/pages/admin/restaurants/CreateMenuItemDialog.tsx";
+import {useCategory} from "@/hooks/useCategory.ts";
 
 export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
     const {
@@ -18,6 +19,9 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
         deleteMenuItems,
         loading
     } = useMenuItems();
+
+
+
     const [isMenuItemModalOpen, setIsMenuItemModalOpen] = useState(false);
     const [editMenuItem, setEditMenuItem] = useState<MenuItemResponse | null>(null);
 
@@ -26,11 +30,6 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
         setIsMenuItemModalOpen(true);
     }
 
-    const handleSubmitMenuItem = async (data: MenuItemsFormData) => {
-        await createMenuItems(data);
-        const filter = {...menuItemFilter};
-        setMenuItemFilter(filter);
-    };
     const handleDeleteMenuItem = async (menuItem: MenuItemResponse) => {
         await deleteMenuItems(Number.parseInt(menuItem.id));
         const filter = {...menuItemFilter};
@@ -43,12 +42,12 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
             filter.restaurantId = Number.parseInt(editRestaurant.id);
             setMenuItemFilter(filter);
         }
-    }, [editRestaurant]);
+    }, [editRestaurant, isMenuItemModalOpen]);
 
     return (
         <>
             <Dialog open={open} onOpenChange={onOpenChange}>
-                <DialogContent className="sm:max-w-250 h-[450px] flex flex-col">
+                <DialogContent className="sm:max-w-250 h-112.5 flex flex-col">
                     <DialogHeader>
                         <div className="flex items-center justify-between">
                             <div>
@@ -94,7 +93,8 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
                                                 </TableCell>
                                                 <TableCell>{menuItem.category.name}</TableCell>
                                                 <TableCell className="text-right"> {menuItem.price}
-                                                    <Badge> {editRestaurant?.currency}</Badge></TableCell>
+                                                    <span
+                                                        className="font-bold"> {editRestaurant?.currency}</span></TableCell>
                                                 <TableCell className="text-right">
                                                     <div className="flex justify-end gap-2">
                                                         <Button

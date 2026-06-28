@@ -52,7 +52,7 @@ export function RestaurantsTable({setEditRestaurant, setIsMenuItemOpen, isModalD
                                     </TableCell>
                                 </TableRow>
                             ) : (
-                                restaurants.map((restaurant) => (<TableRow>
+                                restaurants.map((restaurant) => (<TableRow id={restaurant.id}>
                                     <TableCell>
                                         <div>
                                             <div className="font-medium"> {restaurant.name}</div>

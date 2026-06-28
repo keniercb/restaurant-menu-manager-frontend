@@ -6,9 +6,10 @@ export const menuItemSchema = z.object({
         .max(100, "El nombre no puede exceder los 100 caracteres"),
     description: z.string().max(255, "La descripción no puede exceder los 255 caracteres"),
     price: z.number().min(0.1, "El precio es obligatorio"),
-    category: z.string("El tipo de plato es obligatorio"),
+    category: z.string().min(1, "El tipo de plato es obligatorio"),
     order: z.number().min(1, "El orden debe ser mayor que cero").optional(),
     isAvailable: z.boolean().optional(),
+    restaurantId: z.number().optional(),
 });
 export type MenuItemsFormData = z.infer<typeof menuItemSchema>;
 

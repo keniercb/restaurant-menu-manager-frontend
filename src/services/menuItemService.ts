@@ -17,10 +17,10 @@ export const menuItemService = {
             name: data.name,
             description: data.description,
             price: data.price,
-            isAvailable: data.isActive,
+            isAvailable: data.isAvailable,
             restaurantId: data.restaurantId,
             categoryId: data.category,
-            displayOrder: data.displayOrder,
+            displayOrder: data.order,
         });
     },
     deleteMenuItem: async (id: number): Promise<void> => {
