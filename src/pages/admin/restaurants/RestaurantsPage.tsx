@@ -11,7 +11,7 @@ export function RestaurantsPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editRestaurant, setEditRestaurant] = useState<Restaurant | null>(null);
     const [filter, setFilter] = useState("");
-
+    const [recargar, setRecargar] = useState(true);
 
     const [isMenuItemOpen, setIsMenuItemOpen] = useState(false);
 
@@ -45,12 +45,13 @@ export function RestaurantsPage() {
             <RestaurantsTable
                 setEditRestaurant={setEditRestaurant}
                 setIsMenuItemOpen={setIsMenuItemOpen}
-                isModalDialogOpen={isModalOpen}
+                recargar={recargar}
             />
             <CreateRestaurantDialog
                 editRestaurant={editRestaurant}
                 open={isModalOpen}
                 onOpenChange={setIsModalOpen}
+                setRecargar={setRecargar}
             />
             <MenuItemsDialog
                 open={isMenuItemOpen}

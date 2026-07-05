@@ -15,7 +15,7 @@ export const restaurantService = {
     }
     ,
     postRestaurant: async (data: RestaurantFormData) => {
-        const response = await api.post(REQUEST_MAP, {
+        await api.post(REQUEST_MAP, {
             name: data.name,
             address: data.address,
             phone: data.phone,
@@ -23,6 +23,8 @@ export const restaurantService = {
             cuisineId: data.cuisine,
             currencyId: 1
         });
-        console.log(response);
+    },
+    deleteRestaurant: async (data: Restaurant) => {
+        await api.delete(`${REQUEST_MAP}/${data.id}`, {})
     }
 }

@@ -65,9 +65,9 @@ export function useMenuItems(): UseMenuItemReturn {
             setLoading(false);
         }
     }
-    useEffect(() => {
+    /*useEffect(() => {
         fetchMenuItems(menuItemFilter)
-    }, [menuItemFilter]);
+    }, [menuItemFilter]);*/
 
     return {
         menuItems,

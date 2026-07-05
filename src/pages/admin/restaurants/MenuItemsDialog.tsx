@@ -21,7 +21,6 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
     } = useMenuItems();
 
 
-
     const [isMenuItemModalOpen, setIsMenuItemModalOpen] = useState(false);
     const [editMenuItem, setEditMenuItem] = useState<MenuItemResponse | null>(null);
 
@@ -37,12 +36,14 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
     }
 
     useEffect(() => {
+        console.log(open);
+        console.log(editRestaurant);
         if (editRestaurant?.id) {
             const filter = {...menuItemFilter};
             filter.restaurantId = Number.parseInt(editRestaurant.id);
             setMenuItemFilter(filter);
         }
-    }, [editRestaurant, isMenuItemModalOpen]);
+    }, [editRestaurant]);
 
     return (
         <>
@@ -51,8 +52,8 @@ export function MenuItemsDialog({editRestaurant, open, onOpenChange}) {
                     <DialogHeader>
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-lg font-bold tracking-tight">Menú de
-                                    platos: {editRestaurant?.name}</p>
+                                <p className="text-lg font-bold tracking-tight"><span className="uppercase">Menú de
+                                    platos:</span> {editRestaurant?.name}</p>
                                 <p className="text-sm text-gray-500">
                                     Gestiona todos tus platos
                                 </p>

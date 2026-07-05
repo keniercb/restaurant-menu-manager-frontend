@@ -9,13 +9,14 @@ import {useCuisine} from "@/hooks/useCuisine.ts";
 import {useRestaurant} from "@/hooks/useRestaurant.ts";
 import {RestaurantFormData, restaurantSchema} from "@/lib/schemas.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {useEffect} from "react";
 
-export function CreateRestaurantDialog({editRestaurant, open, onOpenChange}) {
-    const {cuisines} = useCuisine();
+export function CreateRestaurantDialog({editRestaurant, open, onOpenChange, setRecargar}) {
+    const {cuisines, setLoadCuisines} = useCuisine();
     const {
         loading,
         error,
-        fetchRestaurants,
+        setLoadRestaurants,
         createRestaurant,
     } = useRestaurant();
     const {
@@ -40,10 +41,15 @@ export function CreateRestaurantDialog({editRestaurant, open, onOpenChange}) {
             console.log(data);
         } else {
             await createRestaurant(data);
+
         }
+        setRecargar(true);
         onOpenChange(false);
         reset();
     }
+    useEffect(() => {
+        setLoadCuisines(true)
+    })
     return (
         <>
             <Dialog open={open} onOpenChange={onOpenChange}>

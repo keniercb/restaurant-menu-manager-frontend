@@ -7,12 +7,14 @@ interface UseCuisineReturn {
     loading: boolean;
     error: string | null;
     fetchCuisines: () => Promise<void>;
+    setLoadCuisines: (load: boolean) => void;
 }
 
 export function useCuisine(): UseCuisineReturn {
     const [cuisines, setCuisines] = useState<Cuisine[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [loadCuisines, setLoadCuisines] = useState(false);
     const fetchCuisines = useCallback(async () => {
         setLoading(true);
         setError("");
@@ -26,12 +28,15 @@ export function useCuisine(): UseCuisineReturn {
         }
     }, []);
     useEffect(() => {
-        fetchCuisines()
-    }, []);
+        if (loadCuisines)
+            fetchCuisines()
+    }, [loadCuisines]);
+
     return {
         cuisines,
         loading,
         error,
-        fetchCuisines
+        fetchCuisines,
+        setLoadCuisines
     }
 }

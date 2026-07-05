@@ -6,14 +6,17 @@ import {RestaurantFormData} from "@/lib/schemas.ts";
 interface UseRestaurantReturn {
     restaurants: Restaurant[];
     loading: boolean;
+    loadRestaurants:boolean;
     error: string | null;
     fetchRestaurants: () => Promise<void>;
+    setLoadRestaurants: (load: boolean) => void;
     createRestaurant: (data: RestaurantFormData) => Promise<void>;
 }
 
 export function useRestaurant(): UseRestaurantReturn {
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
     const [loading, setLoading] = useState(false);
+    const [loadRestaurants, setLoadRestaurants] = useState(false);
     const [error, setError] = useState("");
 
     const fetchRestaurants = useCallback(async () => {
@@ -39,13 +42,16 @@ export function useRestaurant(): UseRestaurantReturn {
     }
 
     useEffect(() => {
-        fetchRestaurants();
-    }, []);
+        if (loadRestaurants) {
+            fetchRestaurants();
+        }
+    }, [loadRestaurants]);
     return {
         loading,
         error,
         restaurants,
         fetchRestaurants,
-        createRestaurant
+        createRestaurant,
+        setLoadRestaurants
     }
 }

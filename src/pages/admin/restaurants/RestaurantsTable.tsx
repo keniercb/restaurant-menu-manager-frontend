@@ -1,29 +1,30 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {Pencil, Plus, Trash2, UtensilsCrossed} from "lucide-react";
+import {Trash2, UtensilsCrossed} from "lucide-react";
 import {useRestaurant} from "@/hooks/useRestaurant.ts";
 import {Restaurant} from "@/types";
 import {useEffect} from "react";
+import {restaurantService} from "@/services/restaurantService.ts";
 
-export function RestaurantsTable({setEditRestaurant, setIsMenuItemOpen, isModalDialogOpen}) {
+export function RestaurantsTable({setEditRestaurant, setIsMenuItemOpen, recargar}) {
     const {
         restaurants,
-        loading,
-        error,
-        fetchRestaurants,
-        createRestaurant,
+        setLoadRestaurants
     } = useRestaurant();
 
     const handleEdit = async (restaurant: Restaurant) => {
         setEditRestaurant(restaurant);
         setIsMenuItemOpen(true);
     }
-    const handleDelete = (restaurant: Restaurant) => {
+    const handleDelete = async (restaurant: Restaurant) => {
+        await restaurantService.deleteRestaurant(restaurant)
     }
     useEffect(() => {
-        fetchRestaurants();
-    }, [isModalDialogOpen]);
+        if (recargar) {
+            setLoadRestaurants(true);
+        }
+    }, [recargar]);
 
     return (
         <>
